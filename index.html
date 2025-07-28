@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geoportail Niger</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo">Geoportail Niger</div>
+      <ul class="nav-links">
+        <li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li>
+        <li><a href="pages/cartotheque.html"><i class="fas fa-map"></i> Cartothèque</a></li>
+        <li><a href="pages/archive.html"><i class="fas fa-archive"></i> Archives</a></li>
+        <li><a href="pages/apropos.html"><i class="fas fa-question-circle"></i> Apropos-nous</a></li>
+        <li><a href="pages/contact.html"><i class="fas fa-envelope"></i> Contactez-nous</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="controls">
+      <label for="level-selector"><i class="fas fa-layer-group"></i> Choisir le niveau :</label>
+      <select id="level-selector">
+        <option value="regions">🏛️ Régions</option>
+        <option value="departements">🏢 Départements</option>
+        <option value="communes">🏘️ Communes</option>
+      </select>
+         <button id="print-map" class="panel-toggle">
+        <i class="fas fa-print"></i> Imprimer
+      </button>
+      <button id="toggle-panel" class="panel-toggle">
+        <i class="fas fa-cog"></i> Couches thématiques
+      </button>
+   <label for="language-selector"><i class="fas fa-language"></i> Choisir votre langue :</label>
+<select id="language-selector">
+  <option value="fr">🏛️ Français</option>
+  <option value="en">🏢 English</option>
+  <option value="ha">🏘️ هَوُسَ (Haoussa)</option>
+  <option value="dje">🏘️ Zarma</option>
+  <option value="ff">🏘️ Fulfulde</option>
+  <option value="tmh">🏘️ Tamacheck</option>
+  <option value="kr">🏘️ Kanouri</option>
+  <option value="tu">🏘️ Toubou</option>
+</select>
+    </div>
+    
+    <!-- Panneau de contrôle des couches -->
+    <div id="layers-panel" class="layers-panel">
+      <div class="panel-content">
+        <div class="panel-header">
+          <h3><i class="fas fa-layers"></i> Couches thématiques</h3>
+          <button id="close-panel" class="close-btn">&times;</button>
+        </div>
+        
+        <!-- Infrastructure -->
+        <div class="panel-section">
+          <div class="section-header" data-section="infrastructure">
+            <i class="fas fa-road"></i>
+            <span>Infrastructure</span>
+            <i class="fas fa-chevron-down arrow"></i>
+          </div>
+          <div class="section-content" id="infrastructure-content">
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="airports-int"> 
+              <i class="fas fa-plane color-blue"></i>
+              Aéroport International
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="airports-nat"> 
+              <i class="fas fa-plane color-green"></i>
+              Aéroport national
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="aerodrome"> 
+              <i class="fas fa-helicopter color-orange"></i>
+              Aérodrome
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="roads-main"> 
+              <i class="fas fa-road color-red"></i>
+              Autoroute
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="roads-paved"> 
+              <i class="fas fa-road color-blue"></i>
+              Route bitumée
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="roads-unpaved"> 
+              <i class="fas fa-road color-brown"></i>
+              Route non bitumée
+            </label>
+          </div>
+        </div>
+        
+        <!-- Éducation -->
+        <div class="panel-section">
+          <div class="section-header" data-section="education">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Éducation</span>
+            <i class="fas fa-chevron-down arrow"></i>
+          </div>
+          <div class="section-content" id="education-content">
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="universities"> 
+              <i class="fas fa-university color-purple"></i>
+              Universités
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="high-schools"> 
+              <i class="fas fa-school color-blue"></i>
+              Lycées
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="middle-schools"> 
+              <i class="fas fa-school color-green"></i>
+              Collèges
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="primary-schools"> 
+              <i class="fas fa-school color-orange"></i>
+              Écoles primaires
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="literacy-centers"> 
+              <i class="fas fa-book color-teal"></i>
+              Centres d'alphabétisation
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="vocational-schools"> 
+              <i class="fas fa-tools color-brown"></i>
+              Écoles professionnelles
+            </label>
+          </div>
+        </div>
+        
+        <!-- Santé -->
+        <div class="panel-section">
+          <div class="section-header" data-section="health">
+            <i class="fas fa-heartbeat"></i>
+            <span>Santé</span>
+            <i class="fas fa-chevron-down arrow"></i>
+          </div>
+          <div class="section-content" id="health-content">
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="hospitals"> 
+              <i class="fas fa-hospital color-red"></i>
+              Hôpitaux
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="health-centers"> 
+              <i class="fas fa-clinic-medical color-blue"></i>
+              Centres de santé
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="dispensaries"> 
+              <i class="fas fa-first-aid color-green"></i>
+              Dispensaires
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="pharmacies"> 
+              <i class="fas fa-pills color-orange"></i>
+              Pharmacies
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="maternity"> 
+              <i class="fas fa-baby color-pink"></i>
+              Maternités
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="vaccination-centers"> 
+              <i class="fas fa-syringe color-purple"></i>
+              Centres de vaccination
+            </label>
+          </div>
+        </div>
+        
+        <!-- Agriculture -->
+        <div class="panel-section">
+          <div class="section-header" data-section="agriculture">
+            <i class="fas fa-seedling"></i>
+            <span>Agriculture</span>
+            <i class="fas fa-chevron-down arrow"></i>
+          </div>
+          <div class="section-content" id="agriculture-content">
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="irrigation"> 
+              <i class="fas fa-tint color-blue"></i>
+              Zones d'irrigation
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="crops"> 
+              <i class="fas fa-wheat-awn color-green"></i>
+              Zones de culture
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="livestock"> 
+              <i class="fas fa-cow color-brown"></i>
+              Élevage
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="markets"> 
+              <i class="fas fa-store color-orange"></i>
+              Marchés
+            </label>
+          </div>
+        </div>
+        
+        <!-- Environnement -->
+        <div class="panel-section">
+          <div class="section-header" data-section="environment">
+            <i class="fas fa-leaf"></i>
+            <span>Environnement</span>
+            <i class="fas fa-chevron-down arrow"></i>
+          </div>
+          <div class="section-content" id="environment-content">
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="protected-areas"> 
+              <i class="fas fa-tree color-green"></i>
+              Aires protégées
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="water-bodies"> 
+              <i class="fas fa-water color-blue"></i>
+              Points d'eau
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="forests"> 
+              <i class="fas fa-tree color-darkgreen"></i>
+              Forêts
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" data-layer="mining"> 
+              <i class="fas fa-mountain color-gray"></i>
+              Sites miniers
+            </label>
+          </div>
+
+        </div>
+        
+        <div class="panel-footer">
+          <button class="reset-btn" id="reset-layers">
+            <i class="fas fa-undo"></i> Réinitialiser
+          </button>
+        </div>
+      </div>
+    </div>
+    </div>
+    
+    <div id="map">
+      <div id="info-display">
+        <h3><i class="fas fa-map-marker-alt"></i> <span id="location-name">Survolez une zone</span></h3>
+        <p><span class="info-label">Type:</span> <span id="location-type">-</span></p>
+        <p><span class="info-label">Superficie:</span> <span id="location-area">-</span></p>
+        <p><span class="info-label">Population:</span> <span id="location-population">-</span></p>
+        <div id="additional-info"></div>
+      </div>
+    </div>
+  </main>
+
+  <div class="cartee">
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="js/map.js"></script>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="animated-bg"></div>
+    
+    <div class="footer-container">
+      <div class="footer-grid">
+        <!-- Section Marque -->
+        <div class="footer-section brand-section">
+          <div class="brand-logo">
+            <i class="fas fa-globe-africa"></i>
+            Géoportail Niger
+          </div>
+          <p class="brand-description">
+            Plateforme géospatiale officielle du Niger pour explorer, analyser et partager les données cartographiques du territoire national.
+          </p>
+          <div class="social-links">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+
+        <!-- Services -->
+        <div class="footer-section">
+          <h3><i class="fas fa-map"></i> Services</h3>
+          <ul>
+            <li><a href="#"><i class="fas fa-layer-group"></i> Cartes administratives</a></li>
+            <li><a href="#"><i class="fas fa-search-location"></i> Localisation géographique</a></li>
+            <li><a href="#"><i class="fas fa-chart-area"></i> Statistiques démographiques</a></li>
+            <li><a href="#"><i class="fas fa-download"></i> Téléchargement de données</a></li>
+            <li><a href="#"><i class="fas fa-print"></i> Impression de cartes</a></li>
+          </ul>
+        </div>
+
+        <!-- Données -->
+        <div class="footer-section">
+          <h3><i class="fas fa-database"></i> Données</h3>
+          <ul>
+            <li><a href="#"><i class="fas fa-flag"></i> Limites administratives</a></li>
+            <li><a href="#"><i class="fas fa-users"></i> Données démographiques</a></li>
+            <li><a href="#"><i class="fas fa-road"></i> Infrastructure</a></li>
+            <li><a href="#"><i class="fas fa-mountain"></i> Géographie physique</a></li>
+            <li><a href="#"><i class="fas fa-seedling"></i> Ressources naturelles</a></li>
+          </ul>
+        </div>
+
+        <!-- Support -->
+        <div class="footer-section">
+          <h3><i class="fas fa-headset"></i> Support</h3>
+          <ul>
+            <li><a href="#"><i class="fas fa-phone"></i> +227 XX XX XX XX</a></li>
+            <li><a href="#"><i class="fas fa-envelope"></i> contact@geoportail.ne</a></li>
+            <li><a href="#"><i class="fas fa-question-circle"></i> Aide en ligne</a></li>
+            <li><a href="#"><i class="fas fa-book"></i> Guide d'utilisation</a></li>
+            <li><a href="#"><i class="fas fa-bug"></i> Signaler un problème</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-bottom">
+        <div class="footer-bottom-flex">
+          <div>
+            © 2025 Géoportail Niger - République du Niger. Tous droits réservés.
+          </div>
+          <div class="footer-links">
+            <a href="#">Politique de confidentialité</a>
+            <a href="#">Conditions d'utilisation</a>
+            <a href="#">Mentions légales</a>
+            <a href="#">Accessibilité</a> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

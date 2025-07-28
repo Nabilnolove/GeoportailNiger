@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archives Cartographiques du Niger</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style1.css">
+    <style>
+        :root {
+            --primary-color: #1a5276;
+            --secondary-color: #d35400;
+            --light-color: #f8f9f9;
+            --dark-color: #17202a;
+            --accent-color: #28b463;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/f/f4/Flag_of_Niger.svg') center/cover no-repeat;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .archive-controls {
+            background-color: white;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        select {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .map-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .map-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .map-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .map-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .map-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .map-card:hover .map-image img {
+            transform: scale(1.05);
+        }
+
+        .map-info {
+            padding: 1.5rem;
+        }
+
+        .map-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .map-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #777;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .map-desc {
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .map-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .tag.period {
+            background-color: #e8f8f5;
+            color: var(--accent-color);
+        }
+
+        .tag.region {
+            background-color: #fef9e7;
+            color: #d35400;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 3rem 0;
+            gap: 0.5rem;
+        }
+
+        .pagination button {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            background-color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pagination button:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .pagination button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        footer {
+            background: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .map-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .archive-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+     <nav class="navbar">
+      <div class="logo">Geoportail Niger</div>
+      <ul class="nav-links">
+        <li><a href="/index.html"><i class="fas fa-home"></i> Accueil</a></li>
+        <li><a href="cartotheque.html"><i class="fas fa-map"></i> Cartothèque</a></li>
+        <li><a href="/pages/archive.html"><i class="fas fa-archive"></i> Archives</a></li>
+        <li><a href="/pages/apropos.html"><i class="fas fa-question-circle"></i> Apropos-nous</a></li>
+        <li><a href="/pages/contact.html"><i class="fas fa-envelope"></i> Contactez-nous</a></li>
+      </ul>
+    </nav>
+    <header>
+        <div class="header-content">
+            <div class="container">
+                <h1><i class="fas fa-archive"></i> Archives Cartographiques</h1>
+                <p class="subtitle">Collection historique des cartes du Niger à travers les siècles</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="archive-controls">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Rechercher une carte...">
+            </div>
+            
+            <div class="filter-group">
+                <select id="period-filter">
+                    <option value="">Toutes les périodes</option>
+                    <option value="precolonial">Précoloniale</option>
+                    <option value="colonial">Coloniale (1890-1960)</option>
+                    <option value="postindependence">Post-indépendance (1960-1990)</option>
+                    <option value="modern">Moderne (1990-présent)</option>
+                </select>
+                
+                <select id="region-filter">
+                    <option value="">Toutes les régions</option>
+                    <option value="niamey">Niamey</option>
+                    <option value="agadez">Agadez</option>
+                    <option value="zinder">Zinder</option>
+                    <option value="maradi">Maradi</option>
+                    <option value="tahoua">Tahoua</option>
+                    <option value="dosso">Dosso</option>
+                    <option value="diffa">Diffa</option>
+                    <option value="tillaberi">Tillabéri</option>
+                </select>
+                
+                <select id="type-filter">
+                    <option value="">Tous les types</option>
+                    <option value="topographique">Topographique</option>
+                    <option value="politique">Politique</option>
+                    <option value="thematique">Thématique</option>
+                    <option value="historique">Historique</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="map-grid">
+            <!-- Carte 1 -->
+            <div class="map-card">
+                <div class="map-image">
+                    <img src="/images/image12.jpg" alt="Carte du Niger colonial">
+                </div>
+                <div class="map-info">
+                    <h3 class="map-title">Zone humide d'importance internationale
+                        Site Ramsar Dallol Bosso (2009)
+                    </h3>
+                    <div class="map-meta">
+                        
+                        <span><i class="fas fa-user"></i> Service Géographique Colonial</span>
+                    </div>
+                    <p class="map-desc">Carte administrative de l'Afrique Occidentale Française montrant les zones humides du Niger.</p>
+                </div>
+            </div>
+
+            <!-- Carte 2 -->
+            <div class="map-card">
+                <div class="map-image">
+                    <img src="/images/image13.jpg" alt="Carte du Niger indépendant">
+                </div>
+                <div class="map-info">
+                    <h3 class="map-title">Zone humide d'importace internationale Gueltas et Oasis de l'Aïr (2009)</h3>
+                    <div class="map-meta">
+                        <span><i class="far fa-calendar-alt"></i> 2009</span>
+                        <span><i class="fas fa-user"></i> Direction de la Faune, de pêche et de la pisciculture</span>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- Carte 3 -->
+            <div class="map-card">
+                <div class="map-image">
+                    <img src="/images/image14.jpg" alt="Carte hydrologique">
+                </div>
+                <div class="map-info">
+                    <h3 class="map-title">Système des zones humides du complexes Kokoru, Zarobi, Namaga, Tida (2001)</h3>
+                    <div class="map-meta">
+                        <span><i class="far fa-calendar-alt"></i> 2001</span>
+                        <span><i class="fas fa-user"></i> Direction de la Faune, de pêche et de la pisciculture</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte 4 -->
+            <div class="map-card">
+                <div class="map-image">
+                    <img src="/images/image15.jpg" alt="Carte administrative moderne">
+                </div>
+                <div class="map-info">
+                    <h3 class="map-title">Plan du site du Guidmouni</h3>
+                    <div class="map-meta">
+                        <span><i class="far fa-calendar-alt"></i> 2012</span>
+                        <span><i class="fas fa-user"></i>Direction de la Faune, de pêche et de la pisciculture</span>
+                    </div>
+                     <div class="map-tags">
+                        <span class="tag region">Nationale</span>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte 5 -->
+            <div class="map-card">
+                <div class="map-image">
+                    <img src="/images/image16.jpg" alt="Carte de l'empire Songhaï">
+                </div>
+                <div class="map-info">
+                    <h3 class="map-title">Populations et données linguitiques</h3>
+                    <div class="map-meta">
+                        <span><i class="fas fa-user"></i> Reconstruction historique</span>
+                    </div>
+                    <div class="map-tags">
+                        <span class="tag">Historique</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte 6 -->
+            <div class="map-card">
+                <div class="map-image">
+                    <img src="/images/image17.jpg" alt="Carte des ressources minières">
+                </div>
+                <div class="map-info">
+                    <h3 class="map-title">Carte de crise et des soutiens  (2018)</h3>
+                    <div class="map-meta">
+                        <span><i class="far fa-calendar-alt"></i> 2018</span>
+                    </div>
+                  <div class="map-tags">
+                        <span class="tag period">Moderne</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pagination">
+            <button><i class="fas fa-chevron-left"></i></button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <h3>Archives Nationales du Niger</h3>
+            <p>Département de Cartographie Historique</p>
+            <p>contact@archives-niger.ne | +227 XX XX XX XX</p>
+            <p>&copy; 2025 Tous droits réservés</p>
+        </div>
+    </footer>
+
+    <script>
+        // Fonctionnalité de filtrage (basique)
+        document.querySelectorAll('select').forEach(select => {
+            select.addEventListener('change', filterMaps);
+        });
+
+        document.querySelector('.search-box input').addEventListener('input', filterMaps);
+
+        function filterMaps() {
+            const searchTerm = document.querySelector('.search-box input').value.toLowerCase();
+            const periodFilter = document.getElementById('period-filter').value;
+            const regionFilter = document.getElementById('region-filter').value;
+            const typeFilter = document.getElementById('type-filter').value;
+
+            document.querySelectorAll('.map-card').forEach(card => {
+                const title = card.querySelector('.map-title').textContent.toLowerCase();
+                const desc = card.querySelector('.map-desc').textContent.toLowerCase();
+                const periodTag = card.querySelector('.tag.period').textContent.toLowerCase();
+                const regionTag = card.querySelector('.tag.region').textContent.toLowerCase();
+                const typeTag = card.querySelectorAll('.tag:not(.period):not(.region)')[0].textContent.toLowerCase();
+
+                const matchesSearch = title.includes(searchTerm) || desc.includes(searchTerm);
+                const matchesPeriod = !periodFilter || periodTag.includes(periodFilter);
+                const matchesRegion = !regionFilter || regionTag.includes(regionFilter);
+                const matchesType = !typeFilter || typeTag.includes(typeFilter);
+
+                if (matchesSearch && matchesPeriod && matchesRegion && matchesType) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

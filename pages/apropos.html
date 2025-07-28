@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À propos de notre entreprise</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style1.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #e74c3c;
+            --accent-color: #3498db;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .video-section {
+            padding: 4rem 0;
+            background-color: white;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .about-content {
+            padding: 4rem 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .about-text h2 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .about-text h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 60px;
+            height: 4px;
+            background-color: var(--secondary-color);
+        }
+        
+        .about-text p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .values-list {
+            list-style: none;
+        }
+        
+        .values-list li {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+        
+        .values-list li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+        }
+        
+        .team-section {
+            padding: 4rem 0;
+            background-color: var(--light-color);
+            text-align: center;
+        }
+        
+        .team-section h2 {
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .team-member {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+        
+        .team-member img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 5px solid var(--accent-color);
+        }
+        
+        .team-member h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-member p {
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+        
+        footer {
+            background: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .social-links {
+            margin: 1rem 0;
+        }
+        
+        .social-links a {
+            color: white;
+            margin: 0 10px;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        @media (max-width: 768px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+     <nav class="navbar">
+      <div class="logo">Geoportail Niger</div>
+      <ul class="nav-links">
+        <li><a href="/index.html"><i class="fas fa-home"></i> Accueil</a></li>
+        <li><a href="cartotheque.html"><i class="fas fa-map"></i> Cartothèque</a></li>
+        <li><a href="/pages/archive.html"><i class="fas fa-archive"></i> Archives</a></li>
+        <li><a href="/pages/apropos.html"><i class="fas fa-question-circle"></i> Apropos-nous</a></li>
+        <li><a href="/pages/contact.html"><i class="fas fa-envelope"></i> Contactez-nous</a></li>
+      </ul>
+    </nav>
+    <header>
+        <div class="container">
+            <h1>À propos de nous</h1>
+            <p class="subtitle">Découvrez notre histoire, notre mission et notre équipe</p>
+        </div>
+    </header>
+    
+    <section class="video-section">
+        <div class="container">
+            <div class="video-container">
+                <!-- Remplacez le lien par votre vidéo Pictory -->
+                <iframe src="https://video.pictory.ai/1753605983041/20250727085906481B4Tw3ydvHOq0M60" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </section>
+    
+    <section class="about-content">
+        <div class="container">
+            <div class="about-text">
+                <h2 style="margin-top: 2rem;">Notre mission</h2>
+                <p>Nous nous engageons à fournir des solutions innovantes et sur mesure qui répondent aux défis complexes de nos clients. Notre approche centrée sur l'humain et notre expertise technique nous permettent de délivrer des résultats exceptionnels.</p>
+                
+                <ul class="values-list">
+                    <li>Innovation constante</li>
+                    <li>Qualité irréprochable</li>
+                    <li>Service client exceptionnel</li>
+                    <li>Éthique et transparence</li>
+                    <li>Développement durable</li>
+                </ul>
+            </div>
+            
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                     alt="Notre équipe au travail" 
+                     style="width: 100%; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+            </div>
+        </div>
+    </section>
+    
+    <section class="team-section">
+        <div class="container">
+            <h2>Rencontrez notre équipe</h2>
+            
+            <div class="team-grid">
+                <div class="team-member">
+                    <img src="/images/image11.jpg" alt="Directrice générale">
+                    <h3>Laouali Oumarou</h3>
+                    <p>Ingenieur Géomaticien</p>
+                </div>
+                
+                <div class="team-member">
+                    <img src="/images/image8.jpg" alt="Directeur technique">
+                    <h3>Rachida Mamane Bako</h3>
+                    <p>Ingenieur Géomaticien</p>
+                </div>
+                
+                <div class="team-member">
+                    <img src="/images/image9.jpg" alt="Chef de projet">
+                    <h3>Arafat Souley Zaroumey</h3>
+                    <p>Doctorant en géographie</p>
+                </div>
+                
+                <div class="team-member">
+                    <img src="/images/image10.jpg" alt="Responsable commercial">
+                    <h3>Nabil Hamissou Oumarou</h3>
+                    <p>Developpeur en génie logiciel  </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <h3>Contactez-nous</h3>
+            <p>email@entreprise.com | +227 XX XX XX XX</p>
+            
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+            
+            <p>&copy; 2025 Notre Entreprise. Tous droits réservés.</p>
+        </div>
+    </footer>
+</body>
+</html>
